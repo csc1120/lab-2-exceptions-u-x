@@ -42,6 +42,10 @@ public class Driver {
                     numbersValid = false;
                 }
             }
+            if (input[1] > Die.MAX_SIDES || input[1] < Die.MIN_SIDES) {
+                System.out.println("Bad die creation: Illegal number of sides: " + input[1]);
+                continue;
+            }
             if (!numbersValid) {
                 System.out.println("Invalid input: All values must be whole numbers.");
                 continue;
@@ -64,7 +68,44 @@ public class Driver {
         }
         return dice;
     }
+
+    /**
+     * Roll the dice and give them values.
+     * @param dice Array of dice to roll.
+     * @param numSides Number of sides each dice has.
+     * @param numRolls Number of rolls to generate for each dice.
+     * @return An array of totals of the dice rolls.
+     */
+    public static int[] rollDice(Die[] dice, int numSides, int numRolls) {
+        int[] rolls = new int[(numSides * dice.length) - dice.length];
+        for (int i = 0; i < numRolls; i++) {
+            for (Die d : dice) {
+                d.roll();
+                int roll = d.getCurrentValue();
+                rolls[roll - dice.length] += 1;
+            }
+        }
+        return rolls;
+    }
+
+    /**
+     * A method for finding the highest total of rolls within a roll set.
+     * @param rolls Array of rolls to read.
+     * @return The highest total of rolls.
+     */
+    public static int findMax(int[] rolls) {
+        int highest = 0;
+        for (int i : rolls) {
+            if (i > highest) {
+                highest = i;
+            }
+        }
+        return highest;
+    }
     public static void main(String[] args) {
         int[] userInput = getInput();
+        Die[] dice = createDice(userInput[0], userInput[1]);
+        int[] results = rollDice(dice, userInput[1], userInput[2]);
+        int highest = findMax(results);
     }
 }
