@@ -77,13 +77,15 @@ public class Driver {
      * @return An array of totals of the dice rolls.
      */
     public static int[] rollDice(Die[] dice, int numSides, int numRolls) {
-        int[] rolls = new int[(numSides * dice.length) - dice.length];
+        int[] rolls = new int[(numSides * dice.length) - dice.length + 1];
         for (int i = 0; i < numRolls; i++) {
+            int total = 0;
             for (Die d : dice) {
                 d.roll();
                 int roll = d.getCurrentValue();
-                rolls[roll - dice.length] += 1;
+                total += roll;
             }
+            rolls[total - dice.length] += 1;
         }
         return rolls;
     }
@@ -102,10 +104,30 @@ public class Driver {
         }
         return highest;
     }
+
+    /**
+     * Format the results nice and pretty for the user and display them.
+     * @param numDice Number of dice used in rolls.
+     * @param rolls Buckets of each roll value.
+     * @param max Maximum amount of rolls on a certain number.
+     */
+    public static void report(int numDice, int[] rolls, int max) {
+        final int ten = 10;
+        int scale = max / ten;
+        for (int i = 0; i < rolls.length; i++) {
+            int numStars = rolls[i] / scale;
+            System.out.print((i + numDice) + "\t:" + rolls[i] + "\t");
+            for (int f = 0; f < numStars; f++) {
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
     public static void main(String[] args) {
         int[] userInput = getInput();
         Die[] dice = createDice(userInput[0], userInput[1]);
         int[] results = rollDice(dice, userInput[1], userInput[2]);
         int highest = findMax(results);
+        report(userInput[0], results, highest);
     }
 }

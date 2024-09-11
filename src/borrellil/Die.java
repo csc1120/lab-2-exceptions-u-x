@@ -57,6 +57,6 @@ public class Die {
      * Roll a die by generating a random number between 1 and the amount of sides the die has.
      */
     public void roll() {
-        currentValue = 1 + random.nextInt(1, numSides);
+        currentValue = 1 + random.nextInt(numSides);
     }
 }
