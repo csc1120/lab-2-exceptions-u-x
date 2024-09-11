@@ -16,11 +16,11 @@ public class Die {
     /**
      * Minimum amount of sides a die should have.
      */
-    public final int MIN_SIDES = 2;
+    public static final int MIN_SIDES = 2;
     /**
      * Maximum amount of sides a die should have.
      */
-    public final int MAX_SIDES = 100;
+    public static final int MAX_SIDES = 100;
     private int currentValue;
     private int numSides;
     private final Random random = new Random();
